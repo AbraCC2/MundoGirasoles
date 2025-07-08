@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MundoGirasoles</title>
+  <style>
+    body {
+      margin: 0;
+      background: url('https://www.debitirarmasfotos.com/_next/static/media/noise.9c5733c5.png') repeat, #051a2d;
+      color: #fff9e6;
+      font-family: 'Arial', sans-serif;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      cursor: none;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .logo {
+      width: 70vw;
+      max-width: 350px;
+      animation: float 3s ease-in-out infinite;
+      height: auto;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+      100% { transform: translateY(0px); }
+    }
+
+    .buttons {
+      margin-top: 2px; /* MUCHÍSIMO más cerca del logo */
+      display: flex;
+      flex-direction: column; /* botones en columna */
+      gap: 8px; /* menos espacio entre botones */
+      align-items: center;
+      width: 100%;
+      max-width: 250px;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 8px;
+      background-color: rgba(5, 26, 45, 0.4);
+      border: 2px solid #fff9e6;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      transition: background 0.3s;
+      cursor: none !important;
+      box-sizing: border-box;
+    }
+
+    .btn:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .btn img {
+      max-width: 80px;
+      max-height: 30px;
+      height: auto;
+      display: block;
+    }
+
+    /* Cursor girasol personalizado */
+    #custom-cursor {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 64px;
+      height: 64px;
+      pointer-events: none;
+      background: url('cursor-girasol-64px.png') no-repeat center center;
+      background-size: contain;
+      transform-origin: 50% 50%;
+      transition: transform 0.2s ease, filter 0.2s ease;
+      z-index: 9999;
+      will-change: transform, top, left, filter;
+    }
+
+    #custom-cursor.hovered {
+      transform: scale(1.5);
+      filter: drop-shadow(0 0 5px #ffd700);
+    }
+
+    @keyframes clickBounce {
+      0% { transform: scale(1.5); }
+      50% { transform: scale(1.8); }
+      100% { transform: scale(1.5); }
+    }
+
+    #custom-cursor.clicked {
+      animation: clickBounce 0.3s ease forwards;
+    }
+
+    @media (max-width: 600px) {
+      .buttons {
+        gap: 6px;
+        max-width: 100%;
+      }
+
+      .btn img {
+        max-width: 60px;
+        max-height: 25px;
+      }
+
+      .logo {
+        width: 80vw;
+        max-width: 280px;
+      }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      #custom-cursor {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <img class="logo" src="MUNDO-GIRASOLES-LOGO.png" alt="Mundo Girasoles Logo" />
+  <div class="buttons">
+    <a class="btn" href="https://www.youtube.com/@mundogirasoles" target="_blank" rel="noopener noreferrer">
+      <img src="BOTON YOUTUBE.webp" alt="YouTube" />
+    </a>
+    <a class="btn" href="https://www.instagram.com/notasdeungirasol?igsh=d3VtNzJ1c2JyZ2M3&utm_source=qr" target="_blank" rel="noopener noreferrer">
+      <img src="BOTON-INSTAGRAM.png" alt="Instagram" />
+    </a>
+  </div>
+
+  <div id="custom-cursor"></div>
+
+  <script>
+    const cursor = document.getElementById('custom-cursor');
+
+    window.addEventListener('mousemove', e => {
+      cursor.style.top = (e.clientY - 32) + 'px';
+      cursor.style.left = (e.clientX - 32) + 'px';
+    });
+
+    const buttons = document.querySelectorAll('.btn');
+    buttons.forEach(btn => {
+      btn.addEventListener('mouseenter', () => {
+        cursor.classList.add('hovered');
+      });
+      btn.addEventListener('mouseleave', () => {
+        cursor.classList.remove('hovered');
+      });
+    });
+
+    window.addEventListener('mousedown', () => {
+      cursor.classList.add('clicked');
+    });
+    window.addEventListener('mouseup', () => {
+      setTimeout(() => {
+        cursor.classList.remove('clicked');
+      }, 300);
+    });
+
+    window.addEventListener('click', e => {
+      const girasol = document.createElement('div');
+      girasol.style.position = 'fixed';
+      girasol.style.width = '64px';
+      girasol.style.height = '64px';
+      girasol.style.left = (e.clientX - 32) + 'px';
+      girasol.style.top = (e.clientY - 32) + 'px';
+      girasol.style.background = "url('cursor-girasol-64px.png') no-repeat center center";
+      girasol.style.backgroundSize = 'contain';
+      girasol.style.pointerEvents = 'none';
+      girasol.style.zIndex = 10000;
+      girasol.style.opacity = '1';
+      girasol.style.transition = 'opacity 0.5s ease-out, transform 0.5s ease-out';
+
+      document.body.appendChild(girasol);
+
+      girasol.style.transform = 'scale(1.5) rotate(15deg)';
+
+      setTimeout(() => {
+        girasol.style.opacity = '0';
+        girasol.style.transform = 'scale(2) rotate(45deg)';
+      }, 300);
+
+      setTimeout(() => {
+        girasol.remove();
+      }, 800);
+    });
+  </script>
+</body>
+</html>
